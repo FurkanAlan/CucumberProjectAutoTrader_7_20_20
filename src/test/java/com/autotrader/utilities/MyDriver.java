@@ -17,9 +17,9 @@ import org.openqa.selenium.safari.SafariDriver;
 import java.net.URL;
 
 public class MyDriver {
-    public static ThreadLocal<WebDriver> DriverPool = new ThreadLocal<>();
+    private static ThreadLocal<WebDriver> DriverPool = new ThreadLocal<>();
 
-    public MyDriver() {
+    private MyDriver() {
     }
 
     public static WebDriver get() {

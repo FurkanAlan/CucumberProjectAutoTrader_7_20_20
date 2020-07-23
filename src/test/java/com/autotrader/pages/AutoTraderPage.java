@@ -31,9 +31,9 @@ public class AutoTraderPage extends BasePage {
     @FindBy(xpath = "//select[@id='ModelCode']")
     public WebElement modelElement;
 
-    public AutoTraderPage() {
-        PageFactory.initElements(MyDriver.get(), this);
-    }
+//    public AutoTraderPage() {
+//        PageFactory.initElements(MyDriver.get(), this);
+//    }
 
 
     /**

@@ -21,14 +21,17 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-public class CommonMethods extends MyDriver{
+
+public class CommonMethods {
+    public static String jsonFile;
+
     /**
      * This method accepts pop up alerts.
      */
 
     public static void acceptAlert() {
         try {
-            Alert alert = get().switchTo().alert();
+            Alert alert = MyDriver.get().switchTo().alert();
             alert.accept();
         } catch (NoAlertPresentException e) {
             System.out.println("No Alert is present");
@@ -37,7 +40,7 @@ public class CommonMethods extends MyDriver{
 
     public static void dismissAlert() {
         try {
-            Alert alert = get().switchTo().alert();
+            Alert alert = MyDriver.get().switchTo().alert();
             alert.dismiss();
         } catch (NoAlertPresentException e) {
             System.out.println("No Alert is present");
@@ -47,7 +50,7 @@ public class CommonMethods extends MyDriver{
     public static String getAlertText() {
         String alertText = null;
         try {
-            Alert alert = get().switchTo().alert();
+            Alert alert = MyDriver.get().switchTo().alert();
             alertText = alert.getText();
         } catch (NoAlertPresentException e) {
             System.out.println("No Alert is present");
@@ -57,7 +60,7 @@ public class CommonMethods extends MyDriver{
 
     public static void switchToFrame(String nameOrId) {
         try {
-            get().switchTo().frame(nameOrId);
+            MyDriver.get().switchTo().frame(nameOrId);
         } catch (NoSuchFrameException e) {
             System.out.println("Frame is not present");
         }
@@ -65,7 +68,7 @@ public class CommonMethods extends MyDriver{
 
     public static void switchToFrame(WebElement element) {
         try {
-            get().switchTo().frame(element);
+            MyDriver.get().switchTo().frame(element);
         } catch (NoSuchFrameException e) {
             System.out.println("Frame is not present");
         }
@@ -73,55 +76,30 @@ public class CommonMethods extends MyDriver{
 
     public static void switchToFrame(int index) {
         try {
-            get().switchTo().frame(index);
+            MyDriver.get().switchTo().frame(index);
         } catch (NoSuchFrameException e) {
             System.out.println("Frame is not present");
         }
     }
 
     public static void jsClick(WebElement element) {
-        JavascriptExecutor js = (JavascriptExecutor) get();
+        JavascriptExecutor js = (JavascriptExecutor) MyDriver.get();
         js.executeScript("arguments[0].click();", element);
     }
 
     public static void scrollIntoElement(WebElement element) {
-        JavascriptExecutor js = (JavascriptExecutor) get();
+        JavascriptExecutor js = (JavascriptExecutor) MyDriver.get();
         js.executeScript("arguments[0].scrollIntoView(true);", element);
     }
 
     public static void scrollDown(WebElement element, int pixel) {
-        JavascriptExecutor js = (JavascriptExecutor) get();
+        JavascriptExecutor js = (JavascriptExecutor) MyDriver.get();
         js.executeScript("window.scrollBy(0," + pixel + ")");
     }
 
     public static void scrollUp(WebElement element, int pixel) {
-        JavascriptExecutor js = (JavascriptExecutor) get();
+        JavascriptExecutor js = (JavascriptExecutor) MyDriver.get();
         js.executeScript("window.scrollBy(0,-" + pixel + ")");
-    }
-
-    /**
-     * This method will take screenshot and save it with the given file name
-     *
-     * @param fileName
-     */
-    public static byte[] takeScreenShot(String fileName) {
-
-        Date date=new Date();
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy_MMdd_HHmmss");
-        String timeStamp=sdf.format(date.getTime());
-
-        TakesScreenshot ts = (TakesScreenshot) get();
-
-        byte[] picture=ts.getScreenshotAs(OutputType.BYTES);
-
-        File screen=ts.getScreenshotAs(OutputType.FILE);
-        String scrshotFile = Constants.SCREENSHOTS_FILEPATH + fileName + "_" + getTime() + ".png";
-        try {
-            FileUtils.copyFile(screen, new File(scrshotFile));
-        } catch (IOException e) {
-            System.out.println("Cannot take screenshot");
-        }
-        return picture;
     }
 
 //	/**
@@ -137,6 +115,31 @@ public class CommonMethods extends MyDriver{
 // 			e.printStackTrace();
 // 		}
 //	}
+
+    /**
+     * This method will take screenshot and save it with the given file name
+     *
+     * @param fileName
+     */
+    public static byte[] takeScreenShot(String fileName) {
+
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MMdd_HHmmss");
+        String timeStamp = sdf.format(date.getTime());
+
+        TakesScreenshot ts = (TakesScreenshot) MyDriver.get();
+
+        byte[] picture = ts.getScreenshotAs(OutputType.BYTES);
+
+        File screen = ts.getScreenshotAs(OutputType.FILE);
+        String scrshotFile = Constants.SCREENSHOTS_FILEPATH + fileName + "_" + getTime() + ".png";
+        try {
+            FileUtils.copyFile(screen, new File(scrshotFile));
+        } catch (IOException e) {
+            System.out.println("Cannot take screenshot");
+        }
+        return picture;
+    }
 
     /**
      * This method will send text to given webelement
@@ -158,7 +161,7 @@ public class CommonMethods extends MyDriver{
      */
 
     public static WebDriverWait getWaitObject() {
-        WebDriverWait wait = new WebDriverWait(get(), Constants.EXPLICIT_WAIT_TIME);
+        WebDriverWait wait = new WebDriverWait(MyDriver.get(), Constants.EXPLICIT_WAIT_TIME);
         return wait;
     }
 
@@ -205,7 +208,7 @@ public class CommonMethods extends MyDriver{
      * @param target
      */
     public static void moveTo(WebElement target) {
-        Actions action = new Actions(get());
+        Actions action = new Actions(MyDriver.get());
         action.moveToElement(target);
     }
 
@@ -215,7 +218,7 @@ public class CommonMethods extends MyDriver{
      * @param target
      */
     public static void actionsClick(WebElement target) {
-        Actions action = new Actions(get());
+        Actions action = new Actions(MyDriver.get());
         action.click(target);
     }
 
@@ -269,7 +272,54 @@ public class CommonMethods extends MyDriver{
     }
 
     /**
+     * This method select an option in drop down list by value attribute
+     *
+     * @param element
+     * @param value
+     */
+    public static void selectDDText(WebElement element, String value) {
+        Select select = new Select(element);
+        List<WebElement> options = select.getOptions();
+
+        boolean isFound = false;
+
+        for (WebElement option : options) {
+            if (option.getText().equals(value)) {
+                select.selectByVisibleText(value);
+                isFound = true;
+                break;
+            } else if (option.getAttribute("value").contains(value)) {
+                select.selectByValue(value);
+                isFound = true;
+                break;
+            }
+        }
+
+
+        if (!isFound) {
+            System.out.println(value + " is not found in the Dropdown List");
+        }
+
+    }
+
+    /**
+     * This methods receives the filename of the jSon file and returns it in String format
+     *
+     * @param fileName
+     * @return
+     */
+    public static String readJson(String fileName) {
+        try {
+            jsonFile = new String(Files.readAllBytes(Paths.get(fileName)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return jsonFile;
+    }
+
+    /**
      * This methods selects date from the calender which is defined in the HRMS application
+     *
      * @param element
      * @param year
      * @param month
@@ -281,15 +331,16 @@ public class CommonMethods extends MyDriver{
         element.clear();
         element.click();
 
-        WebElement mnth = get().findElement(By.cssSelector("select.ui-datepicker-month"));
+        WebElement mnth = MyDriver.get().findElement(By.cssSelector("select.ui-datepicker-month"));
         Select mSelect = new Select(mnth);
         mSelect.selectByVisibleText(month);
 
-        WebElement years=get().findElement(By.xpath("//select[@class='ui-datepicker-year']"));
+        WebElement years = MyDriver.get().findElement(By.xpath("//select[@class='ui-datepicker-year']"));
         Select ySelect = new Select(years);
         ySelect.selectByVisibleText(year);
 
-        List<WebElement> dayList = get().findElements(By.xpath("//table[@class='ui-datepicker-calendar']/tbody/tr/td"));
+        List<WebElement> dayList = MyDriver.get().findElements(By.xpath("//table[@class='ui-datepicker-calendar" +
+                "']/tbody/tr/td"));
 
         for (WebElement dy : dayList) {
             if (dy.getText().equals(day)) {
@@ -297,51 +348,5 @@ public class CommonMethods extends MyDriver{
                 break;
             }
         }
-    }
-
-    /**
-     * This method select an option in drop down list by value attribute
-     *
-     * @param element
-     * @param value
-     */
-    public static void selectDDText(WebElement element, String value) {
-        Select select = new Select(element);
-        List<WebElement> options=select.getOptions();
-
-        boolean isFound=false;
-
-        for(WebElement option:options) {
-            if(option.getText().equals(value)) {
-                select.selectByVisibleText(value);
-                isFound=true;
-                break;
-            }else if(option.getAttribute("value").contains(value)) {
-                select.selectByValue(value);
-                isFound=true;
-                break;
-            }
-        }
-
-
-        if(!isFound) {
-            System.out.println(value+" is not found in the Dropdown List");
-        }
-
-    }
-
-    public static String jsonFile;
-    /**
-     * This methods receives the filename of the jSon file and returns it in String format
-     * @param fileName
-     * @return
-     */
-    public static String readJson(String fileName) {
-        try {
-            jsonFile = new String(Files.readAllBytes(Paths.get(fileName)));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return jsonFile;
     }
 }

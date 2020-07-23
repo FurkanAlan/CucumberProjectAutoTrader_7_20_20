@@ -1,0 +1,106 @@
+########################### 1 ######################################
+Cross browsing; birden fazla farkli browser
+Parallel browsing; ayni anda birden fazla browser acmak demek
+
+########################### 2 ######################################
+JUnit 5 den sonra paralel testing i deskteklemiyordu
+daha sonra destek geldi (burasi biraz karisik geldi "ancak bu seferde cucumber bunu desteklemiyor ondan dolayi")
+bundan dolayi surefire plugin ile yapiyoruz
+                    <forkCount></forkCount>
+                    sanirim bu eklenti vasitasiyla sistem kendi Runner.class dosyasini olusturuyoruz
+Ozet olarak paralel testi JUnit-Cucumber ile yapmak icin surefire plugin kullaniyoruz
+surefire ayni zamanda raporlama icin de kullaniliyor,
+surefire engine gibi dusunelebilir
+
+########################### 3 ######################################
+
+
+Bunun alternetifi, testNG dependency ekleyip POM.xml e ekleyip
+bunun xml dosyasini olusturup orada da paraleli, cross-browsing detaylarini koyup yapabiliyoruz
+
+
+########################### 4 ######################################
+mvn ile cucumber nasil calistirilir
+
+
+########################### 5 ######################################
+
+<!--<threadCount>5</threadCount>, bu kod bize 5 tane browser acacak ayni anda, 5 tane paralel
+test, birde paralel testi calistirmak icin mvn commanda dan calistrilmali-->
+
+konsolo dan mvn clean test yazmamiz lazim, paralel test yapmak icin
+
+rapor almak icin konsoldan mvn clean verify yazmamiz lazim
+burayi cok anlamadim, ancak JSON dosyasinin olmasi icin feature file uzerinden
+yapiyoruz
+
+########################### 6 ######################################
+code snippet leri olusturmak icin feature file calistirlir tabi dryRun = true olmali.
+
+########################### 7 ######################################
+PageFactory metodu, constructor icersine yaziliyor, diger bir metod da BasePage de yazip bunu extend ettigimizdan dolayi
+ diger sayfalara yazmaya gerek kalmiyor
+ 1.yontem
+ Herbir page in icersine yazmak
+     public AutoTraderPage() {
+         PageFactory.initElements(MyDriver.get(), this);
+     }
+
+ 2. yontem
+     //When we use @FindBy annotation
+     public BasePage() {
+         PageFactory.initElements(MyDriver.get(), this);
+     }
+ama mutlak BasePage in metodlarini alcak sekilde ayarlanmali
+########################### 8 ######################################
+Interviewlerde anlatirken, alttan baslayip antamak da bir metod olabilir
+, properties dosyasindan baslayip.
+
+
+########################### 9 ######################################
+Elementlerin visible olmadigi durumlarda scroll down yaapilmasi gerekiyor cunku element visible olmayacagi icin hata
+verecektir bunun onune gecebilmek icin asagidaki kodu kullaniyoruz
+        JavascriptExecutor js = (JavascriptExecutor) MyDriver.get();
+        js.executeScript("arguments[0].scrollIntoView(true)", link);
+
+        /**
+         *  this script must scroll, until link element is visible
+         *  once link element visible, it will stop scrolling
+         *  arguments[0] = means first webelement after comma (link)
+         *  arguments it's an array of webelements after comma
+         *  arguments[0] = link web element, it can be any web element
+         */
+
+
+########################### 10 ######################################
+try-catch metodu throws a gore cok daha avantajli, cunku her metod signature gerekn yerde throw keyword kullanmamzi gerekecek biz try-catch kullanarak bunu engelliyoruz ve daha clean kodlamamizi da sagliyor
+
+
+########################### 11 ######################################
+Data Driven Testing Example
+Scenario yerine Scenario Outline yaziyoruz ve Example Table (pipeline) olmali
+
+
+ parametreli olmasini saglamak icin "" kullaniliyor bu sekilde ooldugunda parametresi String oluyor eger sadece numara
+ varsa parametre int olacak,
+
+ <> bunun anlamai bizim title oldugu anlamina geliyor, ve bunun altinda data larin oldugunu gosteriyor
+
+ "<model>" yerine, <model> yaparsak , code snippet olustururken , burada yazilan herbir deger icin ayri Code Snippet olusturuyor ondan dolayi "" kullanmak onemli
+
+ Bu sekilde yaparak bir metod 10 farkli datayla calisabilecek
+<> = diamond operator
+  Scenario Outline: testin the multiple entry
+    Given choose make as "<model>"
+    Examples:
+      | model    |
+      | BMW      |
+      | Auidi    |
+      | Mercedes |
+      | Toyota   |
+      | Acura    |
+      | BMW      |
+      | Auidi    |
+      | Mercedes |
+      | Toyota   |
+      | Acura    |

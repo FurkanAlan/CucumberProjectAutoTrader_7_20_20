@@ -14,7 +14,6 @@ public class BasePage {
 
     //When we use @FindBy annotation in this page.
     public BasePage() {
-
         PageFactory.initElements(MyDriver.get(), this);
     }
 
@@ -65,6 +64,13 @@ public class BasePage {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
 
+    public static void slpBrowser(int timeToSleep){
+        try {
+            Thread.sleep(timeToSleep);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

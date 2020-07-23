@@ -65,17 +65,33 @@ Feature:
 #    Then User verifies that he sees only "BMW" cars in listing
 #    Then Display in console, the number of cars listed in result page
 
+  Scenario Outline: testin the multiple entry
+    Given choose make as "<model>"
+    Examples:
+      | model    |
+      | BMW      |
+      | Auidi    |
+      | Mercedes |
+      | Toyota   |
+      | Acura    |
+      | BMW      |
+      | Auidi    |
+      | Mercedes |
+      | Toyota   |
+      | Acura    |
+
 #  Scenario Outline: testin the multiple entry
-#    Given choose make as "<model>"
+#    Given choose make as "<model>" and "<make>"
+##    bunlar esit olamali
 #    Examples:
-#      | model    |
-#      | BMW      |
-#      | Auidi    |
-#      | Mercedes |
-#      | Toyota   |
-#      | Acura    |
-#      | BMW      |
-#      | Auidi    |
-#      | Mercedes |
-#      | Toyota   |
-#      | Acura    |
+#      | model    | make |
+#      | BMW      | 1    |
+#      | Auidi    | 2    |
+#      | Mercedes | 3    |
+#      | Toyota   | 4    |
+#      | Acura    | 5    |
+#      | BMW      | 12   |
+#      | Auidi    | 12   |
+#      | Mercedes | 4    |
+#      | Toyota   | 5    |
+#      | Acura    | 6    |
