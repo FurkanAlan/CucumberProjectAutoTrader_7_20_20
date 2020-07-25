@@ -90,6 +90,16 @@ Scenario yerine Scenario Outline yaziyoruz ve Example Table (pipeline) olmali
 
  Bu sekilde yaparak bir metod 10 farkli datayla calisabilecek
 <> = diamond operator
+
+"<model>" bu ifade bizim parametremiz
+Data Driven oldugu icin bu parametreyi kullanarak altindaki kactane data (set of data) varsa bu data yi okadar
+calsitiracak
+
+Cucumber da parametrize yapmak istiyorsak "" kullaniriz
+
+Data Driven de ise Scenario Outline, Example table kullaniriz
+
+
   Scenario Outline: testin the multiple entry
     Given choose make as "<model>"
     Examples:
@@ -104,3 +114,86 @@ Scenario yerine Scenario Outline yaziyoruz ve Example Table (pipeline) olmali
       | Mercedes |
       | Toyota   |
       | Acura    |
+
+Data Driven framework de 3 farkli sekilde yapilabilir
+1-) Scenario Outline, Example table
+
+2-) Excel file , apache POI
+
+3-) JDBC, Oracle Databases
+
+
+########################### 12 ######################################
+
+How do you decide automation test?
+Which case you decide to automate
+
+SDLC soylecegiz, requirement analize ederim
+Sonra test execution ve test closur yaparim
+
+Hangisi repeat similar set of data, that time we decide to automation
+
+
+########################### 13 ######################################
+
+ConfigurationReader.getProperty("browser") ==> bu sekilde oldgunda sistemden aliyoruz
+
+System.setProperty("browser", "chrome")  ==> hangi browser ile olacaigni kendimiz beliylliyoruz
+
+
+
+########################### 14 ######################################
+
+Cross-Browsing
+
+Feature:
+#
+  Background: chrome testing
+
+  autoTrader.feature dan gelen chrome oluyor
+
+
+autoTrader1.feature dan gelen ise firefox oluyor
+
+  Background: chrome testing
+    Given user test with "firefox" browser
+
+
+    ########################### 15 ######################################
+Paralel testing
+
+
+                <configuration>
+                    <parallel>method</parallel>
+                    <forkMode>perthread</forkMode>
+                    <!--<threadCount>5</threadCount>, bu kod bize 5 tane browser acacak ayni anda, 5 tane paralel
+                    test, birde paralel testi calistirmak icin mvn commanda dan calistrilmali, bu ayni zamanda runner
+                     class a da bagli-->
+                    <threadCount>5</threadCount>
+
+                    <includes>
+                        <!-- *Runner means, it will include runner classes name ends with runner.-->
+                        <include>**/*Runner*.java</include>
+                        <!--                        test fail oldugunda onun durmasini engel oluyor asagidaki ifade-->
+                        <!--                        <testFailureIgnore>true</testFailureIgnore>-->
+                    </includes>
+                </configuration>
+
+ Herbir runner 1 thread oluyor, eger 5 tane runner olursa 5 tane test yapmis oluurzu ayni anda buna a paralel testing
+ denliyor
+
+ paralel testing yapam codumuz
+                     <parallel>method</parallel>
+
+
+
+
+    private static ThreadLocal<WebDriver> DriverPool = new ThreadLocal<>();
+
+paraelel test yapamak icin ThreadLocal driver i runtime da birden fazla copy olusturuyor ayni anda birden fazla driver
+birden fazla runner birden fazla feature file run ediyor
+
+
+Signelton mantigina gore paralel test mumkun olmuyormus
+
+aslinda fazla feature dosyasi altindaki feature file lara gore paralle testing oluyor

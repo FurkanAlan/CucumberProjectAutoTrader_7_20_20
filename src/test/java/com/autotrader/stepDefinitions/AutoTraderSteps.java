@@ -3,21 +3,27 @@ package com.autotrader.stepDefinitions;
 import com.autotrader.pages.AdvanceSearchPage;
 import com.autotrader.pages.AutoTraderPage;
 import com.autotrader.pages.BasePage;
+import com.autotrader.utilities.ConfigurationReader;
 import com.autotrader.utilities.MyDriver;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.junit.Assert;
+
+import java.util.concurrent.TimeUnit;
+
 
 public class AutoTraderSteps {
     AdvanceSearchPage advanceSearchPage = new AdvanceSearchPage();
     AutoTraderPage autoTraderPage = new AutoTraderPage();
 
     @Given("user test with {string} browser")
-    public void user_test_with_browser(String string) {
-        System.out.println("The Landing Page");
-        String actTitle = MyDriver.get().getTitle();
-        String expTitle = "Used and New Car Sales, Review - Autotrader";
-        Assert.assertEquals(expTitle, actTitle);
+    public void user_test_with_browser(String browser) {
+        if (browser.equals("chrome")){
+//            ConfigurationReader.getProperty(browser);
+            System.setProperty("browser","chrome");
+        }else {
+            System.setProperty("browser","firefox");
+        }
 
     }
 
@@ -46,7 +52,11 @@ public class AutoTraderSteps {
     @Then("verify that {string} and {string} is visible")
     public void verify_that_and_is_visible(String make, String model) {
         autoTraderPage.verifyMakeAndModel(make, model);
-        BasePage.slpBrowser(2000);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -104,7 +114,13 @@ public class AutoTraderSteps {
     }
 
     @Given("choose make as {string}")
-    public void choose_make_as(String string) {
-
+    public void choose_make_as(String make) {
+        MyDriver.get().manage().deleteAllCookies();
+        autoTraderPage.multipleChoice(make);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

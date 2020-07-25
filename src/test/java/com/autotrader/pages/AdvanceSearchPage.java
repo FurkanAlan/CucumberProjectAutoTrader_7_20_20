@@ -148,5 +148,7 @@ public class AdvanceSearchPage extends BasePage {
         int expectedResult = Integer.parseInt(arr[2]);
         Assert.assertEquals("Assertion failed", expectedResult, actual);
     }
+
+
 }
 

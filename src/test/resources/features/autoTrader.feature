@@ -35,23 +35,36 @@
 
 
 
-@smoke_test
-Feature:
 
+
+
+
+
+
+
+
+#@smoke_test
+Feature:
+#
   Background: chrome testing
     Given user test with "chrome" browser
+#
+  ##Test 1
 
-  @unit_test
-  @regression_test
-  Scenario: User goes to Autotrader Website
-    Given User is in landing page
-    Then Verify that "Browse by Make" are present
-    Then Verify that "Browse by Style" are present
-    Then Verify that "Advanced Search" are present
-    And verify that search button is present.
-    Then verify that "Any Make" and "Any Model" is visible
+#  @unit_test
+#  @regression_test
+#  Scenario: User goes to Autotrader Website
+#    Given User is in landing page
+#    Then Verify that "Browse by Make" are present
+#    Then Verify that "Browse by Style" are present
+#    Then Verify that "Advanced Search" are present
+#    And verify that search button is present.
+#    Then verify that "Any Make" and "Any Model" is visible
 
 
+
+
+##Test 2
 #  @integration_test
 #  Scenario: User checks the Advance search link
 #    Given User click Advance Search link on the home page
@@ -65,6 +78,8 @@ Feature:
 #    Then User verifies that he sees only "BMW" cars in listing
 #    Then Display in console, the number of cars listed in result page
 
+
+## Test 3
   Scenario Outline: testin the multiple entry
     Given choose make as "<model>"
     Examples:
@@ -79,6 +94,9 @@ Feature:
       | Mercedes |
       | Toyota   |
       | Acura    |
+
+
+## Example 1
 
 #  Scenario Outline: testin the multiple entry
 #    Given choose make as "<model>" and "<make>"

@@ -83,7 +83,7 @@ public class AutoTraderPage extends BasePage {
 
       @param model
      */
-//    public void multipleChoice(String model) {
-//        makeElement.sendKeys(model);
-//    }
+    public void multipleChoice(String model) {
+        makeElement.sendKeys(model);
+    }
 }

@@ -13,14 +13,15 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         //@target olmali diger turli rerun.txt dosyasini bulamaz
-        features = {"@target/rerun.txt",},
+        features = {"@target/rerun_second.txt",},
         glue = "com/autotrader/stepDefinitions",
 
         plugin = {
-                "html:target/rerun-default-cucumber-reports",
-                "json:target/cucumber_failure.json"
+                "html:target/rerun-default-cucumber-reports_third",
+                "json:target/cucumber_failure_third.json",
+                "rerun:target/rerun_third.txt"
         }
 
 )
-public class FailedRunner {
+public class ModifiedFailedRunner3 {
 }

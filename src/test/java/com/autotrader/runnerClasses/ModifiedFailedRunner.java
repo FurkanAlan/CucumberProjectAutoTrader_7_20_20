@@ -17,10 +17,11 @@ import org.junit.runner.RunWith;
         glue = "com/autotrader/stepDefinitions",
 
         plugin = {
-                "html:target/rerun-default-cucumber-reports",
-                "json:target/cucumber_failure.json"
+                "html:target/rerun-default-cucumber-reports_first",
+                "json:target/cucumber_failure_first.json",
+                "rerun:target/rerun_first.txt"
         }
 
 )
-public class FailedRunner {
+public class ModifiedFailedRunner {
 }

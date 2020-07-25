@@ -91,7 +91,8 @@
                     <parallel>method</parallel>
                     <forkMode>perthread</forkMode>
                     <!--<threadCount>5</threadCount>, bu kod bize 5 tane browser acacak ayni anda, 5 tane paralel
-                    test, birde paralel testi calistirmak icin mvn commanda dan calistrilmali-->
+                    test, birde paralel testi calistirmak icin mvn commanda dan calistrilmali, bu ayni zamanda runner
+                     class a da bagli-->
                     <threadCount>5</threadCount>
 
                     <includes>

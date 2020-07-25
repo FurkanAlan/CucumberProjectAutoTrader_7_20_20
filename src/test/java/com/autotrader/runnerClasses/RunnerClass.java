@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = "src/test/resources/features",
-        glue = "src/test/java/com/autotrader/stepDefinitions",
+        glue = "com/autotrader/stepDefinitions",
         //dryRun, en basta true yapilir ki feature larin snippetlerini olusturmak icin
         //daha sonra StepDefinition daki metodlari uygulamak icin ise dryRun = false olur
         dryRun =false,
