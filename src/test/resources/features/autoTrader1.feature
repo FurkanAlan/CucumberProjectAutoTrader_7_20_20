@@ -51,15 +51,15 @@ Feature:
 #
   ##Test 1
 
-  @unit_test
-  @regression_test
-  Scenario: User goes to Autotrader Website
-    Given User is in landing page
-    Then Verify that "Browse by Make" are present
-    Then Verify that "Browse by Style" are present
-    Then Verify that "Advanced Search" are present
-    And verify that search button is present.
-    Then verify that "Any Make" and "Any Model" is visible
+#  @unit_test
+#  @regression_test
+#  Scenario: User goes to Autotrader Website
+#    Given User is in landing page
+#    Then Verify that "Browse by Make" are present
+#    Then Verify that "Browse by Style" are present
+#    Then Verify that "Advanced Search" are present
+#    And verify that search button is present.
+#    Then verify that "Any Make" and "Any Model" is visible
 
 
 
